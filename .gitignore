@@ -1,0 +1,26 @@
+# ---- generated at runtime ----
+data/trace.csv
+data/frames.csv
+data/results.csv
+reports/*.html
+!reports/sample/
+
+# ---- LabVIEW ----
+*.aliases
+*.lvlps
+*.lvbitx
+.cache/
+builds/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---- OS / editors ----
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

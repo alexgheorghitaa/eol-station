@@ -1,0 +1,5 @@
+step,low,high,unit,source
+Insulation,2.0,1000,MOhm,representative of published Li-ion EOL practice
+CellOCV,3.55,3.85,V,cell operating window
+DeltaV,0,0.05,V,cell-to-cell spread limit
+PackVolt,-1.0,1.0,V,deviation from sum of cells

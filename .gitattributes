@@ -1,0 +1,7 @@
+# LabVIEW sources are binary — never let git try to diff or merge them
+*.vi   binary
+*.ctl  binary
+*.vit  binary
+*.lvproj text
+*.csv  text
+*.md   text
