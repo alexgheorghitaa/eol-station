@@ -70,17 +70,20 @@ def main():
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srv.bind((HOST, PORT)); srv.listen(1)
-    print(f"listening on {HOST}:{PORT}")
+    print(f"listening on {HOST}:{PORT}", flush=True)
     while True:
-        conn, _ = srv.accept(); buf = b""
+        conn, addr = srv.accept(); buf = b""
+        print(f"client connected from {addr[0]}:{addr[1]}", flush=True)
         with conn:
             while True:
                 chunk = conn.recv(4096)
-                if not chunk: break
+                if not chunk:
+                    print("client disconnected", flush=True); break
                 buf += chunk
                 while b"\n" in buf:
                     line, buf = buf.split(b"\n", 1)
                     reply = handle(line.decode("utf-8", "replace"), pack)
+                    print(f"  <- {line.decode(errors='replace').strip()!r}   -> {reply[:70]}", flush=True)
                     conn.sendall((reply + "\r\n").encode())
 
 if __name__ == "__main__":
