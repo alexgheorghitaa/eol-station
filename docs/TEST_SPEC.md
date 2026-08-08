@@ -17,7 +17,7 @@
 |---|------|---------|-------|-----------------|-----------|
 | 1 | ID & comms | `*IDN?` | prefix `SIMU,BP96`, reply < 2 s | protocol definition | retry ×1, then TESTER ERROR |
 | 2 | Insulation | `MEAS:ISO?` | >= 2.0 MOhm | limits.csv | ABORT sequence |
-| 3 | Cell OCV | `MEAS:VOLT:CELL? n` x96 or `MEAS:CELL:BURST?` | 3.55-3.85 V each | limits.csv | continue; log worst cell |
+| 3 | Cell OCV | `MEAS:VOLT:CELL? n` x96 or `MEAS:CELL:BURST?` | 3.50-3.85 V each | limits.csv | continue; log worst cell |
 | 3b | Cell spread | derived: max - min | <= 0.05 V | limits.csv | continue |
 | 4 | Contactor | `SYS:CONT CLOSE` + `MEAS:VOLT:PACK?` | `OK`, pack within +/-1 V of sum of cells | limits.csv | ABORT remaining |
 
@@ -52,3 +52,10 @@ fault; the batch does not proceed.
 - Limits require sign-off before they mean anything outside this simulation.
 - DCIR and capacity tests are specified in the wider domain but not implemented here.
 - No measurement-system analysis (gauge R&R) has been performed.
+- The CellOCV low limit is 3.50 V, not the 3.55 V a cell datasheet would
+  suggest. The simulator's OCV model is base = 3.0 + 1.2*soc with
+  soc = 0.45 + (seed%21)/100 and cells at base +/- 0.02 V, so a healthy pack
+  can produce cells as low as 3.5200 V. A 3.55 V limit therefore sits inside
+  the healthy population and fails good units. The limit is relaxed to match
+  the model, not the cell. On real hardware the limit comes from the cell
+  spec and the model is discarded.
